@@ -8,6 +8,7 @@ const checkForGoogleFonts = ($) => {
     return { result : "PASS" };
 }
 
+// maybe needs to be updated to include specific Bootstrap version?
 const checkForBootstrapImports = ($) => {
     for(const element of $(globalSelector + 'link')) {
         if ($(element).attr('href').includes('bootstrap'))
@@ -57,6 +58,7 @@ const imgHasSizeParameters = ($) => {
     return { result : allImagesOK };
 }
 
+// needs to be updated for where page has no video at all
 const hasIncorrectVideoPlayerImport = ($) => {
     let result = "FAIL";
     if ($(globalSelector + 'video').length > 0 || $(globalSelector + '*[video-id]').length > 0 || $(globalSelector + '*[data-video-id]').length > 0){

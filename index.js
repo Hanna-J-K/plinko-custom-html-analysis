@@ -15,12 +15,12 @@ XLSX.stream.set_readable(Readable);
 
 import { checkList } from "./checklist.js";
 
-let workbook;
+let unstyledWorkbook;
 fs.access("PageResults.xlxs", fs.constants.F_OK, (err) => {
   if (!err) {
-    workbook = XLSX.read("PageResults.xlxs");
+    unstyledWorkbook = XLSX.read("PageResults.xlxs");
   } else {
-    workbook = XLSX.utils.book_new();
+    unstyledWorkbook = XLSX.utils.book_new();
   }
 });
 
@@ -35,26 +35,54 @@ const excelHeader = [
   "FLUID COMMENTS",
 ];
 
-const createResultsWorkbook = (results, url) => {
-  const worksheet = XLSX.utils.json_to_sheet(results);
+const createUnstyledResultsWorkbook = (results, url) => {
+  const unstyledWorksheet = XLSX.utils.json_to_sheet(results);
 
-  XLSX.utils.book_append_sheet(workbook, worksheet, `Page ${urls.indexOf(url) + 1}`);
-  XLSX.utils.sheet_add_aoa(worksheet, [excelHeader], { origin: "A1" });
+  XLSX.utils.book_append_sheet(
+    unstyledWorkbook,
+    unstyledWorksheet,
+    `Page ${urls.indexOf(url) + 1}`
+  );
+
+  XLSX.utils.sheet_add_aoa(unstyledWorksheet, [excelHeader], { origin: "A1" });
 
   let wscols = [];
   excelHeader.map((arr) => {
     wscols.push({ wch: arr.length + 5 });
   });
-  worksheet["!cols"] = wscols;
+  unstyledWorksheet["!cols"] = wscols;
+  styleWorkbook();
+  setTimeout(() => 1000);
+  XLSX.writeFile(unstyledWorkbook, "PageResults.xlsx", { compression: true });
+};
 
-  XLSX.writeFile(workbook, "PageResults.xlsx", { compression: true });
+const styleWorkbook = () => {
+  var sheet_name_list = unstyledWorkbook.SheetNames;
+  sheet_name_list.forEach(function (y) {
+    /* iterate through sheets */ var worksheet = unstyledWorkbook.Sheets[y];
+    for (let z in worksheet) {
+      worksheet[z].v == "PASS"
+        ? (worksheet[z].s = {
+            fill: {
+              fgColor: { rgb: "FF0000" },
+            },
+          })
+        : what = "what"
+    }
+  });
 };
 
 const runProcess = async () => {
   for (const url of urls) {
     const response = await axios.get(url);
     const website = cheerio.load(response.data);
-
+    console.log(
+      "##########################################################################################"
+    );
+    console.log(
+      "##########################################################################################"
+    );
+    console.log("URL: ", url);
     let results = [];
     let methodNumber = 0;
     checkList.forEach(
@@ -69,7 +97,7 @@ const runProcess = async () => {
       }) => {
         const { result, value } = method(website);
         methodNumber += 1;
-        comments = result == "FAIL" ? comments : ""
+        comments = result == "FAIL" ? comments : "";
         results.push({
           methodNumber,
           section,
@@ -80,7 +108,7 @@ const runProcess = async () => {
           comments,
           fluidComments,
         });
-        console.log({checkpoint, result, value})
+        console.log({ checkpoint, result, value });
       }
     );
     results.push({
@@ -93,18 +121,19 @@ const runProcess = async () => {
       comments: undefined,
       fluidComments: undefined,
     });
-    results.push({ methodNumber: undefined,
+    results.push({
+      methodNumber: undefined,
       section: "PAGE URL",
       checkpoint: url,
       result: undefined,
       priority: undefined,
       done: undefined,
       comments: undefined,
-      fluidComments: undefined, });
+      fluidComments: undefined,
+    });
 
-    
-
-    createResultsWorkbook(results, url);
+    createUnstyledResultsWorkbook(results, url);
   }
 };
+
 runProcess();
