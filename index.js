@@ -51,25 +51,8 @@ const createUnstyledResultsWorkbook = (results, url) => {
     wscols.push({ wch: arr.length + 5 });
   });
   unstyledWorksheet["!cols"] = wscols;
-  styleWorkbook();
-  setTimeout(() => 1000);
-  XLSX.writeFile(unstyledWorkbook, "PageResults.xlsx", { compression: true });
-};
 
-const styleWorkbook = () => {
-  var sheet_name_list = unstyledWorkbook.SheetNames;
-  sheet_name_list.forEach(function (y) {
-    /* iterate through sheets */ var worksheet = unstyledWorkbook.Sheets[y];
-    for (let z in worksheet) {
-      worksheet[z].v == "PASS"
-        ? (worksheet[z].s = {
-            fill: {
-              fgColor: { rgb: "FF0000" },
-            },
-          })
-        : what = "what"
-    }
-  });
+  XLSX.writeFile(unstyledWorkbook, "PageResults.xlsx", { compression: true });
 };
 
 const runProcess = async () => {
