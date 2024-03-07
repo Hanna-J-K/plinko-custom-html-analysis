@@ -61,6 +61,9 @@ const imgHasSizeParameters = ($) => {
 // needs to be updated for where page has no video at all
 const hasIncorrectVideoPlayerImport = ($) => {
     let result = "FAIL";
+    if ($(globalSelector + 'video').length <= 0 || $(globalSelector + 'video') === undefined) {
+        return { result: "PASS" }
+    }
     if ($(globalSelector + 'video').length > 0 || $(globalSelector + '*[video-id]').length > 0 || $(globalSelector + '*[data-video-id]').length > 0){
         result = "FAIL";
         for(const element of $(globalSelector + 'link')) {
