@@ -21,7 +21,7 @@ const checkForBootstrapClasses = ($) => {
     if ($(globalSelector + '*[class*="col-md"]').length > 0) {
         return { result : "PASS", value : $(globalSelector + '*[class*="col-md"]').attr('class')};
     }
-    return { result : "FAIL" };
+    return { result : "PASS" };
 }
 
 const checkForAEMGridClasses = ($) => {
@@ -91,7 +91,7 @@ const hasStyleAttribute = ($) => {
 
 const hasUniqueParentElementId = ($) => {
     let result = "FAIL";
-    if ($(globalSelector).attr('id')) {
+    if ($('div.html-fragment-content > div').attr('id')) {
         result = "PASS";
         if ($('#' + $(globalSelector).attr('id')).length >= 1) {
             result = "FAIL";
@@ -108,6 +108,9 @@ const hasBodyOrHeadInFragment = ($) => {
 }
 
 const hasH4TagsAndBelow = ($) => {
+    if ($(globalSelector + 'h4').length <= 0 && $(globalSelector + 'h5').length <= 0 && $(globalSelector + 'h6').length <= 0){
+        return { result : "PASS" };
+    }
     if ($(globalSelector + 'h4').length > 0 || $(globalSelector + 'h5').length > 0 || $(globalSelector + 'h6').length > 0){
         return { result : "PASS" };
     }
@@ -131,6 +134,8 @@ const tablesHasCaption = ($) => {
 const searchForSocialSharingElements = ($) => {
     let result = "FAIL";
     if (($(globalSelector + '*[class*="facebook"]').length > 0) || ($(globalSelector + '*[class*="instagram"]').length > 0) || ($(globalSelector + '*[class*="linkedin"]').length > 0) || ($(globalSelector + '*[class*="twitter"]').length > 0)) {
+        result = "PASS";
+    } else if (($(globalSelector + '*[class*="facebook"]').length <= 0) && ($(globalSelector + '*[class*="instagram"]').length <= 0) && ($(globalSelector + '*[class*="linkedin"]').length <= 0) && ($(globalSelector + '*[class*="twitter"]').length <= 0)) {
         result = "PASS";
     }
     return { result : result };

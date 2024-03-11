@@ -21,7 +21,7 @@ import {
 export const checkList = [
   {
     section: "Coding",
-    checkpoint: "Google Fonts imports (3rd party",
+    checkpoint: "Google Fonts imports (3rd party)",
     method: checkForGoogleFonts,
     priority: undefined,
     done: undefined,
@@ -30,11 +30,11 @@ export const checkList = [
   },
   {
     section: "Coding",
-    checkpoint: "Bootstrap CSS import",
+    checkpoint: "Bootstrap CSS import exists",
     method: checkForBootstrapImports,
     priority: undefined,
     done: undefined,
-    comments: "Use Bootstrap (v3.1.1)",
+    comments: "Use Bootstrap framework for CSS",
     fluidComments: "",
   },
   {
@@ -43,7 +43,7 @@ export const checkList = [
     method: checkForBootstrapClasses,
     priority: undefined,
     done: undefined,
-    comments: "Utilize Bootstrap CSS classes",
+    comments: "Utilize Bootstrap CSS classes from Bootstrap v3.1.1",
     fluidComments: "",
   },
   {
@@ -111,7 +111,7 @@ export const checkList = [
   },
   {
     section: "Coding",
-    checkpoint: "<body> or <head> in fragment",
+    checkpoint: "<body> or <head> exist in fragment",
     method: hasBodyOrHeadInFragment,
     priority: undefined,
     done: undefined,
@@ -151,7 +151,7 @@ export const checkList = [
     method: searchForSocialSharingElements,
     priority: undefined,
     done: undefined,
-    comments: "Social sharing elements are embedded correctly",
+    comments: "Social sharing elements are embedded incorrectly",
     fluidComments: "",
   },
   {

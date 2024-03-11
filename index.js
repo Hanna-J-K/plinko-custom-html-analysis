@@ -58,7 +58,10 @@ const createUnstyledResultsWorkbook = (results, url) => {
 const runProcess = async () => {
   for (const url of urls) {
     const response = await axios.get(url);
+
     const website = cheerio.load(response.data);
+    // let websiteData = fs.readFileSync("ella.html")
+    // const website = cheerio.load(websiteData)
     let results = [];
     let methodNumber = 0;
 
