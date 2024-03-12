@@ -3,6 +3,7 @@ import cheerio from "cheerio";
 import * as XLSX from "xlsx";
 import { urls } from "./urls.js";
 import { checkList } from "./checklist.js";
+import { scrapeCSSContent } from "./checkCSSFiles.js";
 
 // imports below are a fix for XLSX to be compatible with all versions of Node from 14 up
 /* load 'fs' for readFile and writeFile support */
@@ -35,6 +36,8 @@ const excelHeader = [
   "FLUID COMMENTS",
 ];
 
+const cssFiles = [];
+
 const createUnstyledResultsWorkbook = (results, url) => {
   const unstyledWorksheet = XLSX.utils.json_to_sheet(results);
 
@@ -58,12 +61,24 @@ const createUnstyledResultsWorkbook = (results, url) => {
 const runProcess = async () => {
   for (const url of urls) {
     const response = await axios.get(url);
-
     const website = cheerio.load(response.data);
-    // let websiteData = fs.readFileSync("ella.html")
-    // const website = cheerio.load(websiteData)
+
+    let cssURL;
     let results = [];
     let methodNumber = 0;
+
+    website('link[rel="stylesheet"]').each((index, element) => {
+      cssURL = website(element).attr("href");
+      if (
+        !cssURL.includes("google") &&
+        !cssURL.includes(".min") &&
+        !cssURL.includes("bootstrap")
+      ) {
+        cssFiles.push(cssURL);
+      }
+    });
+
+    console.log("CSS files: ", cssFiles);
 
     console.log(
       "##########################################################################################"
@@ -109,6 +124,11 @@ const runProcess = async () => {
     });
 
     createUnstyledResultsWorkbook(results, url);
+
+    // Scrape the content of each CSS file
+    cssFiles.forEach((file) => {
+      scrapeCSSContent(file);
+    });
   }
 };
 

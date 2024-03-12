@@ -16,6 +16,8 @@ import {
   tablesHasCaption,
   searchForSocialSharingElements,
   imgHasSizeParameters,
+  checkCustomCSS,
+  searchForFontAwesomeIcons
 } from "./methods.js";
 
 export const checkList = [
@@ -34,7 +36,7 @@ export const checkList = [
     method: checkForBootstrapImports,
     priority: undefined,
     done: undefined,
-    comments: "Use Bootstrap framework for CSS",
+    comments: "There is an import for Bootstrap CSS",
     fluidComments: "",
   },
   {
@@ -43,7 +45,7 @@ export const checkList = [
     method: checkForBootstrapClasses,
     priority: undefined,
     done: undefined,
-    comments: "Utilize Bootstrap CSS classes from Bootstrap v3.1.1",
+    comments: "Code utilizes Bootstrap classes",
     fluidComments: "",
   },
   {
@@ -163,4 +165,23 @@ export const checkList = [
     comments: "Do not use <iframe> elements",
     fluidComments: "",
   },
+  {
+    section: "Styling",
+    checkpoint: "CSS overwrite",
+    method: checkCustomCSS,
+    priority: undefined,
+    done: undefined,
+    comments: "This page contains a <style> tag which overwrites CSS for previously defined classes",
+    fluidComments: "",
+  },
+  {
+    section: "Icons",
+    checkpoint: "Icon libraries",
+    method: searchForFontAwesomeIcons,
+    priority: undefined,
+    done: undefined,
+    comments: "This page imports icons from a library not brand-approved",
+    fluidComments: "",
+  },
+  
 ];
