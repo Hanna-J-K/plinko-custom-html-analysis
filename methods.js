@@ -1,5 +1,13 @@
 const globalSelector = ".html-fragment-content ";
 
+// TODO:
+/*
+fix tables check
+fix CSS font family check
+add AEM columns check
+add minified files check
+*/
+
 const checkForGoogleFonts = ($) => {
   for (const element of $(globalSelector + "link")) {
     if ($(element).attr("href").includes("fonts.googleapis.com"))
@@ -223,6 +231,14 @@ const searchForFontAwesomeIcons = ($) => {
   return { result: result };
 };
 
+const searchForBITags = ($) => {
+    let result = "PASS"
+    if ($(globalSelector + "i").length > 0 || $(globalSelector + "b").length > 0) {
+        result = "FAIL"
+    }
+    return {result: result, value: $(globalSelector + "i").text() + $(globalSelector + "b").text()}
+}
+
 const testMethodAlwaysFalse = ($) => {
   return { result: "FAIL" };
 };
@@ -246,5 +262,6 @@ export {
   searchForSocialSharingElements,
   hasUniqueParentElementId,
   checkCustomCSS,
-  searchForFontAwesomeIcons
+  searchForFontAwesomeIcons,
+  searchForBITags
 };
