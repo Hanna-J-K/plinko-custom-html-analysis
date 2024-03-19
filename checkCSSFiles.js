@@ -8,7 +8,7 @@ export const scrapeCSSContent = async (cssUrl) => {
     const cssContent = response.data;
 
     // Process the CSS content as needed
-    checkFontFamilyOverwrites(cssUrl, cssContent)
+    checkFontFamilyOverwrites(cssUrl, cssContent);
   } catch (error) {
     console.error("Error fetching CSS: ", cssUrl);
   }
@@ -30,6 +30,7 @@ const checkFontFamilyOverwrites = (cssURL, cssContent) => {
 
   if (fontFamilyMatches[0] === undefined) {
     console.log(cssURL, " : no font-family declarations found.");
+    return true;
   } else {
     for (const match of fontFamilyMatches) {
       const declaredValue = match[1].trim().replace(/['"]/g, "");
@@ -37,8 +38,10 @@ const checkFontFamilyOverwrites = (cssURL, cssContent) => {
       for (const fontFamily of fontFamilyValues) {
         if (declaredValue !== fontFamily) {
           console.log("Unapproved font family: ", fontFamily);
+          return false;
         } else {
-            console.log(fontFamily)
+          console.log(fontFamily);
+          return true;
         }
       }
     }

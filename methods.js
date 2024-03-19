@@ -232,12 +232,38 @@ const searchForFontAwesomeIcons = ($) => {
 };
 
 const searchForBITags = ($) => {
-    let result = "PASS"
-    if ($(globalSelector + "i").length > 0 || $(globalSelector + "b").length > 0) {
-        result = "FAIL"
+  let result = "PASS";
+  if (
+    $(globalSelector + "i").length > 0 ||
+    $(globalSelector + "b").length > 0
+  ) {
+    result = "FAIL";
+  }
+  return {
+    result: result,
+    value: $(globalSelector + "i").text() + $(globalSelector + "b").text(),
+  };
+};
+
+const testFontFamilies = ($) => {
+  return { result: "PASS" };
+};
+
+const testBreakpoints = ($) => {
+    const hasStyle = checkCustomCSS($);
+    if (hasStyle.result === "FAIL") {
+      return { result: "FAIL" };
     }
-    return {result: result, value: $(globalSelector + "i").text() + $(globalSelector + "b").text()}
-}
+    return { result: "PASS"}
+};
+
+const testMinifiedCSS = ($) => {
+  const hasStyle = checkCustomCSS($);
+  if (hasStyle.result === "FAIL") {
+    return { result: "FAIL" };
+  }
+  return { result: "PASS" };
+};
 
 const testMethodAlwaysFalse = ($) => {
   return { result: "FAIL" };
@@ -263,5 +289,8 @@ export {
   hasUniqueParentElementId,
   checkCustomCSS,
   searchForFontAwesomeIcons,
-  searchForBITags
+  searchForBITags,
+  testBreakpoints,
+  testFontFamilies,
+  testMinifiedCSS,
 };

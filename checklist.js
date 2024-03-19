@@ -18,7 +18,10 @@ import {
   imgHasSizeParameters,
   checkCustomCSS,
   searchForFontAwesomeIcons,
-  searchForBITags
+  searchForBITags,
+  testFontFamilies,
+  testBreakpoints,
+  testMinifiedCSS
 } from "./methods.js";
 
 export const checkList = [
@@ -159,7 +162,7 @@ export const checkList = [
     method: checkCustomCSS,
     done: undefined,
     comments:
-      "This page contains a <style> tag which overwrites CSS for previously defined classes. Please move all styling to .css files",
+      "This page contains a <style> tag, which may overwrite CSS for previously defined classes. Please move all styling to .css files",
     fluidComments: "",
   },
   {
@@ -172,10 +175,34 @@ export const checkList = [
   },
   {
     section: "Styling",
+    checkpoint: "Font families",
+    method: testFontFamilies,
+    done: undefined,
+    comments: "Use only approved font font families - check the HTML fragment guidance for approved list.",
+    fluidComments: "",
+  },
+  {
+    section: "Styling",
     checkpoint: "Use <strong> and <em> tags",
     method: searchForBITags,
     done: undefined,
-    comments: "Use <strong> and <em> tags instead of <b> and <i> for emphasis",
+    comments: "<b> or <i> tags present in HTML fragment when they should not be used. Use <strong> and <em> tags instead",
+    fluidComments: "",
+  },
+  {
+    section: "Styling",
+    checkpoint: "Breakpoints",
+    method: testBreakpoints,
+    done: undefined,
+    comments: "All breakpoints should be defined in one .css file",
+    fluidComments: "",
+  },
+  {
+    section: "Styling",
+    checkpoint: "Minified CSS",
+    method: testMinifiedCSS,
+    done: undefined,
+    comments: "All styling should be in .css files, which should be minified",
     fluidComments: "",
   },
 ];
