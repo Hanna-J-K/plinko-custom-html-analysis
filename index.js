@@ -30,9 +30,9 @@ const excelHeader = [
   "SECTION",
   "CHECKPOINT",
   "STATUS",
-  "DONE",
-  "COMMENTS",
-  "FLUID COMMENTS",
+  "FIXED?",
+  "REVIEW COMMENTS",
+  "GEO COMMENTS",
 ];
 
 const cssFiles = [];
